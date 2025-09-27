@@ -23,8 +23,8 @@ RUN mvn package -DskipTests
 # STAGE 2: The Final Stage - Deploys the WAR file onto a Tomcat server.
 # ----------------------------------------------------------------------
 # Use a Tomcat image with a minimal JRE
-FROM tomcat:9.0-jre17-temurin
-
+#FROM tomcat:9.0-jre17-temurin
+FROM tomcat:10.1.13-jre17-temurin-jammy
 # Remove the default ROOT application to deploy our WAR at the root context.
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
@@ -35,5 +35,6 @@ COPY --from=builder /app/target/my-tomcat-app.war /usr/local/tomcat/webapps/ROOT
 
 # Tomcat's default HTTP port
 EXPOSE 8080
+
 
 # The base Tomcat image already has a CMD to start the server (catalina.sh run)
